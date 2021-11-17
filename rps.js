@@ -41,8 +41,43 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-const playerSelection = "rock";
-const computerSelection = computerPlay();
-console.log(playerSelection);
-console.log(computerSelection);
-console.log(playRound(playerSelection, computerSelection));
+function declareWinner(playerScore, computerScore) {
+    if (playerScore > computerScore) {
+        console.log(`You win the game! ${playerScore} to ${computerScore}`);
+    } else if (playerScore < computerScore) {
+        console.log(`You lose the game! ${playerScore} to ${computerScore}`);
+    } else {
+        console.log(`It's a draw. ${playerScore} to ${computerScore}`);
+    }
+}
+
+function game() {
+    let playerScore = 0;
+    let computerScore = 0;
+    let round = 1;
+
+    while (round <= 5) {
+        const playerSelection = prompt("Rock, paper, or scissors?");
+        const computerSelection = computerPlay();
+
+        let result = playRound(playerSelection, computerSelection);
+
+        console.log(result);
+
+        result = result.toLowerCase();
+        if (result.includes('you win')) {
+            playerScore += 1;
+            console.log("One point to you");
+        } else if (result.includes('you lose')) {
+            computerScore += 1;
+            console.log("One point to computer");
+        }
+
+        round++;
+    }
+
+    declareWinner(playerScore, computerScore);
+
+}
+
+game();
