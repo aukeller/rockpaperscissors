@@ -42,27 +42,31 @@ function playRound(playerSelection, computerSelection) {
 }
 
 
-function declareWinner(playerScore, computerScore) {
+function declareWinner(playerScore, computerScore, result) {
     if (playerScore > computerScore) {
-        console.log(`You win the game! ${playerScore} to ${computerScore}`);
+        result.textContent = `You win! ${playerScore} to ${computerScore}`;
     } else if (playerScore < computerScore) {
-        console.log(`You lose the game! ${playerScore} to ${computerScore}`);
+        result.textContent = `Computer wins! ${playerScore} to ${computerScore}`;
     } else {
-        console.log(`It's a draw. ${playerScore} to ${computerScore}`);
+        result.textContent = `It's a draw. ${playerScore} to ${computerScore}`;
     }
 }
 
 function game() {
     let playerScore = 0;
     let computerScore = 0;
-    let round = 1;
+    
     let roundResult;
 
     const btns = document.querySelectorAll('button');
+    let playerScoreDOM = document.querySelector('#player-score');
+    let computerScoreDOM = document.querySelector('#computer-score');
+    let resultDOM = document.querySelector('.result');
     
 
     btns.forEach(btn => {
         btn.addEventListener('click', function(e) {
+            console.log(computerScore);
             const computerSelection = computerPlay();
 
             roundResult = playRound(e.target.id, computerSelection);
@@ -71,23 +75,27 @@ function game() {
             
             if (roundResult.includes('you win')) {
                 playerScore += 1;
-                console.log("One point to you");
+                playerScoreDOM.textContent = String(playerScore);
+                resultDOM.textContent = "One point to you";
             } else if (roundResult.includes('you lose')) {
                 computerScore += 1;
-                console.log("One point to computer");
+                computerScoreDOM.textContent = String(computerScore);
+                resultDOM.textContent = "One point to computer";
             } else {
-                console.log('Tie');
+                resultDOM.textContent = 'Tie';
             }
+
+            if (computerScore == 5 || playerScore == 5) {
+                declareWinner(playerScore, computerScore, resultDOM);
+                computerScore = 0;
+                computerScoreDOM.textContent = computerScore;
+                playerScore = 0;
+                playerScoreDOM.textContent = playerScore;
+            }
+
             
-            round++;
         });
     });
-
-
- 
-    
-
-    
 
 }
 
